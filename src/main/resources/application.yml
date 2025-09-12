@@ -3,20 +3,22 @@ server:
 
 spring:
   application:
-    name: demo
-
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-
-  h2:
-    console:
-      enabled: true
+    name: APP_NAME
 
   jpa:
+    show-sql: false
     hibernate:
-      ddl-auto: create-drop
-    show-sql: true
-    database-platform: org.hibernate.dialect.H2Dialect
+      ddl-auto: validate
+    properties:
+      hibernate.default_schema: DB_SCHEMA
+      hibernate.jdbc.time_zone: UTC
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration/base
+    schemas: DB_SCHEMA
+    baseline-on-migrate: true
+
+  sql:
+    init:
+      mode: never
